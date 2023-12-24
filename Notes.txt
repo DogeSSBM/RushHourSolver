@@ -1,0 +1,14 @@
+AA---O
+P--Q-O
+PXXQ-O
+P--Q--
+B---CC
+B-RRR-
+
+O+1     A+1     C-1
+AA----  -AA--O  AA---O
+P--Q-O  P--Q-O  P--Q-O
+PXXQ-O  PXXQ-O  PXXQ-O
+P--Q-O  P--Q--  P--Q--
+B---CC  B---CC  B--CC-
+B-RRR-  B-RRR-  B-RRR-
