@@ -74,11 +74,17 @@ typedef struct{
     char grid[6][6];
 }State;
 
-typedef struct Node{
+typedef struct Move{
     char car;
     int val;
+    struct Node *node;
+    struct Move *next;
+}Move;
+
+typedef struct Node{
+    uint lvl;
     State state;
-    struct Node *next;
+    Move *move;
 }Node;
 
 #endif /* end of include guard: TYPES_H */
