@@ -7,16 +7,17 @@
 #include "Types.h"
 #include "Util.h"
 
-Node* newNode(Node *parent, const char car, const int val)
+size_t nodeTotalMoves(Node *n)
 {
-    Node *node = calloc(1, sizeof(Node));
-    if(!node)
-        panic("couldn't allocate newNode for car '%c', val %i", car, val);
-    assertExpr(parent);
-    node->car = car;
-    node ->val = val;
-    node->state = parent->state;
-    return node;
+    size_t total = 0;
+    for(uint i = 0; i < CAR_NUM; i++){
+        if(!cars[i].enabled)
+            continue;
+        for(int val = -1; val < 2; val+=2){
+            total += carCanShift(n->state, cars[i].letter, val);
+        }
+    }
+    return total;
 }
 
 int main(int argc, char **argv)
@@ -29,27 +30,29 @@ int main(int argc, char **argv)
 
     printf("\nstarting state\n");
     statePrint(root->state);
-    printf("carShift(root->state, 'Q', -1)\n");
-    root->state = carShift(root->state, 'Q', -1);
-    statePrint(root->state);
-    printf("carShift(root->state, 'Q', +1)\n");
-    root->state = carShift(root->state, 'Q', +1);
-    statePrint(root->state);
-    printf("carShift(root->state, 'Q', +1)\n");
-    root->state = carShift(root->state, 'Q', +1);
-    statePrint(root->state);
+    printf("%zu possible moves\n", nodeTotalMoves(root));
 
-    printf("carShift(root->state, 'R', +1)\n");
-    root->state = carShift(root->state, 'R', +1);
-    statePrint(root->state);
-    printf("carShift(root->state, 'R', -1)\n");
-    root->state = carShift(root->state, 'R', -1);
-    statePrint(root->state);
-    printf("carShift(root->state, 'R', -1)\n");
-    root->state = carShift(root->state, 'R', -1);
-    statePrint(root->state);
-    printf("carShift(root->state, 'R', -1)\n");
-    root->state = carShift(root->state, 'R', -1);
-    statePrint(root->state);
+    // printf("carShift(root->state, 'Q', -1)\n");
+    // root->state = carShift(root->state, 'Q', -1);
+    // statePrint(root->state);
+    // printf("carShift(root->state, 'Q', +1)\n");
+    // root->state = carShift(root->state, 'Q', +1);
+    // statePrint(root->state);
+    // printf("carShift(root->state, 'Q', +1)\n");
+    // root->state = carShift(root->state, 'Q', +1);
+    // statePrint(root->state);
+    //
+    // printf("carShift(root->state, 'R', +1)\n");
+    // root->state = carShift(root->state, 'R', +1);
+    // statePrint(root->state);
+    // printf("carShift(root->state, 'R', -1)\n");
+    // root->state = carShift(root->state, 'R', -1);
+    // statePrint(root->state);
+    // printf("carShift(root->state, 'R', -1)\n");
+    // root->state = carShift(root->state, 'R', -1);
+    // statePrint(root->state);
+    // printf("carShift(root->state, 'R', -1)\n");
+    // root->state = carShift(root->state, 'R', -1);
+    // statePrint(root->state);
     return 0;
 }

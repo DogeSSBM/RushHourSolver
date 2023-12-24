@@ -84,6 +84,7 @@ typedef struct Move{
 typedef struct Node{
     uint lvl;
     State state;
+    size_t numMoves;
     Move *move;
 }Node;
 
