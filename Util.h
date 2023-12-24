@@ -21,6 +21,13 @@ Coord iC(const int x, const int y)
     return (Coord){x, y};
 }
 
+void carsPrintEnabled(void)
+{
+    for(uint i = 0; i < CAR_NUM; i++){
+        printf("car %c: %s\n", cars[i].letter, cars[i].enabled?"enabled":"disabled");
+    }
+}
+
 size_t carCharIndex(const char c)
 {
     if(c == '-')
@@ -55,6 +62,19 @@ void errAxis(const char c)
 void statePrint(const State s)
 {
     for(uint y = 0; y < 6; y++){
+        for(uint x = 0; x < 6; x++){
+            printf("%c ", s.grid[x][y]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void statePrintInd(const State s, const uint lvl)
+{
+    for(uint y = 0; y < 6; y++){
+        for(uint i = 0; i < lvl; i++)
+            printf("\t");
         for(uint x = 0; x < 6; x++){
             printf("%c ", s.grid[x][y]);
         }
@@ -172,6 +192,46 @@ State carShift(State s, const char car, const int val)
     s.grid[b.x][b.y] = car;
     s.grid[a.x][a.y] = '-';
     return s;
+}
+
+Node* nodeNew(const uint lvl, const State state)
+{
+    Node *n = calloc(1, sizeof(Node));
+    assertExpr(n);
+    n->lvl = lvl;
+    n->state = state;
+    return n;
+}
+
+void movePrint(Move *m)
+{
+    assertExpr(m);
+    for(uint i = 0; i < m->lvlbefore; i++)
+        printf("\t");
+    printf("%c %+i (lvl %u before)\n", m->car, m->val, m->lvlbefore);
+}
+
+Move* moveNew(const State s, const uint lvl, const char car, const int val)
+{
+    assertExpr(carCanShift(s, car, val));
+    Move *m = calloc(1, sizeof(Move));
+    assertExpr(m);
+    m->car = car;
+    m->val = val;
+    m->lvlbefore = lvl;
+    m->node = nodeNew(lvl+1, carShift(s, car, val));
+    return m;
+}
+
+Move* moveAppend(Move *head, Move *tail)
+{
+    if(!head)
+        return tail;
+    Move *cur = head;
+    while(cur->next)
+        cur = cur->next;
+    cur->next = tail;
+    return head;
 }
 
 #endif /* end of include guard: UTIL_H */

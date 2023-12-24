@@ -77,6 +77,7 @@ typedef struct{
 typedef struct Move{
     char car;
     int val;
+    uint lvlbefore;
     struct Node *node;
     struct Move *next;
 }Move;
@@ -84,7 +85,6 @@ typedef struct Move{
 typedef struct Node{
     uint lvl;
     State state;
-    size_t numMoves;
     Move *move;
 }Node;
 
